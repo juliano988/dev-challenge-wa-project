@@ -5,17 +5,37 @@ import TextField from '@material-ui/core/TextField';
 import { Form, Formik, useFormik } from 'formik';
 import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content'
 
 export default function Home() {
 
   const formik = useFormik({
     initialValues: {
-      number: '',
+      number: ''
     },
     validationSchema: yup.object({
-      number: yup.number().required('Value is required')
+      number: yup.number().typeError('Value is required').required('Value is required')
     }),
-    onSubmit: (values) => {
+    onSubmit: (values: { number: number | string }, actions) => {
+      const MySwal = withReactContent(Swal)
+      MySwal.fire({
+        title: 'Are you ready?',
+        html: <span>The number of questions in the quiz will be:<br />
+          <span style={{ fontSize: '40px', margin: '5px', fontWeight: 'bold' }}>{values.number}</span></span>,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'START!',
+        cancelButtonText: 'CANCEL'
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+        } else {
+          actions.resetForm({ values: { number: '' } })
+        }
+      })
       console.log(values)
     },
   });
