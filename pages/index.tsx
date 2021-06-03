@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.scss';
 import { useFormik } from 'formik';
@@ -6,11 +6,17 @@ import * as yup from 'yup';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content'
-import { Button, CircularProgress, Icon, makeStyles, TextField } from '@material-ui/core';
+import { Button, CircularProgress, TextField } from '@material-ui/core';
 import { Send } from '@material-ui/icons';
 import { Question } from '../custonTypes';
+import { QuestionsContext } from './_app';
+import { useRouter } from 'next/router'
 
 export default function Home() {
+
+  const questions = useContext(QuestionsContext);
+
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
@@ -38,7 +44,8 @@ export default function Home() {
           setLoading(true);
           axios.get(' https://opentdb.com/api.php?amount=' + values.number)
             .then(function (response: { data: { results: Array<Question> } }) {
-              console.log(response.data.results);
+              questions.setquestions(response.data.results);
+              router.push('/quiz');
             })
         } else {
           actions.resetForm({ values: { number: '' } })
