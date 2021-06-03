@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.scss';
-import TextField from '@material-ui/core/TextField';
-import { Form, Formik, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import * as yup from 'yup';
-import Button from '@material-ui/core/Button';
+import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content'
+import { Button, CircularProgress, Icon, makeStyles, TextField } from '@material-ui/core';
+import { Send } from '@material-ui/icons';
+import { Question } from '../custonTypes';
 
 export default function Home() {
+
+  const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
       number: ''
     },
     validationSchema: yup.object({
-      number: yup.number().typeError('Value is required').required('Value is required')
+      number: yup.number().typeError('Value is required').min(1, 'Value must be 1 or higher.').required('Value is required')
     }),
     onSubmit: (values: { number: number | string }, actions) => {
       const MySwal = withReactContent(Swal)
@@ -31,12 +35,15 @@ export default function Home() {
         cancelButtonText: 'CANCEL'
       }).then((result) => {
         if (result.isConfirmed) {
-
+          setLoading(true);
+          axios.get(' https://opentdb.com/api.php?amount=' + values.number)
+            .then(function (response: { data: { results: Array<Question> } }) {
+              console.log(response.data.results);
+            })
         } else {
           actions.resetForm({ values: { number: '' } })
         }
       })
-      console.log(values)
     },
   });
 
@@ -57,14 +64,23 @@ export default function Home() {
               name="number"
               label="Number of questions"
               variant="outlined"
+              placeholder="Ex. 5"
+              size="small"
               fullWidth
               value={formik.values.number}
               onChange={formik.handleChange}
               error={formik.touched.number && Boolean(formik.errors.number)}
-              helperText={formik.errors.number ? formik.errors.number : 'Enter the number of questions.'}
-              placeholder="Ex. 5"
-              size="small" />
-            <Button type="submit" variant="contained" color="primary" size="small" fullWidth >SEND</Button>
+              helperText={formik.errors.number ? formik.errors.number : 'Enter the number of questions.'} />
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="small"
+              disabled={loading}
+              endIcon={loading ? null : <Send />}
+              fullWidth >{loading ? <CircularProgress size={24} /> : 'SEND'}
+            </Button>
           </form>
         </div>
       </div>
