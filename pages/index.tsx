@@ -10,12 +10,11 @@ import { Button, CircularProgress, TextField } from '@material-ui/core';
 import { Send } from '@material-ui/icons';
 import { Question } from '../custonTypes';
 import { QuestionsContext } from './_app';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 export default function Home() {
 
   const questions = useContext(QuestionsContext);
-
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -42,7 +41,7 @@ export default function Home() {
       }).then((result) => {
         if (result.isConfirmed) {
           setLoading(true);
-          axios.get(' https://opentdb.com/api.php?amount=' + values.number)
+          axios.get('https://opentdb.com/api.php?amount=' + values.number)
             .then(function (response: { data: { results: Array<Question> } }) {
               questions.setquestions(response.data.results);
               router.push('/quiz');
