@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import QuestionCard from "../components/QuestionCard";
 import { QuestionsContext } from "./_app";
 import { useRouter } from 'next/router';
+import { Button } from "@material-ui/core";
 
 export default function Quiz() {
 
@@ -16,17 +17,29 @@ export default function Quiz() {
     }
   }, []);
 
+  function handleSubmitClick() {
+    questions.questions?.forEach(function (question, i) {
+      const questionXAnswers = document.getElementsByName('question'+(i+1)) as unknown as Array<HTMLInputElement>;
+      for (let j = 0; j < questionXAnswers.length; j++) {
+        if (questionXAnswers[j].checked) {
+          console.log({question:(i+1), selected_answer: questionXAnswers[j].value});
+        }
+      }
+    })
+  }
+
+
   useEffect(function () {
     const tempArr: Array<typeof QuestionCard> = []
     questions.questions?.forEach(function (question, i, arr) {
       tempArr.push(
-      <QuestionCard
-        key={i}
-        questionNum={i+1}
-        totalQuestions={arr.length}
-        questionCategory={question.category}
-        question={question.question}
-        answers={question.incorrect_answers.concat(question.correct_answer)}
+        <QuestionCard
+          key={i}
+          questionNum={i + 1}
+          totalQuestions={arr.length}
+          questionCategory={question.category}
+          question={question.question}
+          answers={question.incorrect_answers.concat(question.correct_answer)}
         /> as unknown as typeof QuestionCard)
     })
     setquestionsArr(tempArr);
@@ -35,6 +48,7 @@ export default function Quiz() {
   return (
     <>
       {questionsArr}
+      <Button type="button" onClick={handleSubmitClick} variant="contained" color="primary">SEND</Button>
     </>
   )
 }

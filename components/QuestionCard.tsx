@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, CardContent, FormControlLabel, Radio, RadioGroup, Typography } from "@material-ui/core";
 import styles from "../styles/components/QuestionCard-styles.module.scss";
 import DOMPurify from 'dompurify';
@@ -17,7 +17,7 @@ export default function QuestionCard(props: {
     while (answers.length) { shuffledAnswers.push(answers.splice(Math.floor(Math.random() * answers.length), 1)[0]) }
     return shuffledAnswers;
   }
-
+  
   return (
     <div className={styles.card_div}>
       <Card variant="outlined">
@@ -30,8 +30,14 @@ export default function QuestionCard(props: {
             <span>{props.questionCategory}</span>
           </Typography>
           <Typography component="p" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.question) }} />
-          <RadioGroup name="gender1">
-            {shuffledAnswers(props.answers).map(function(answer,i){return <FormControlLabel key={i} value={answer} control={<Radio />} label={answer} />})}
+          <RadioGroup aria-label={"question" + props.questionNum} name={"question" + props.questionNum}>
+            {shuffledAnswers(props.answers).map(function (answer, i) {
+              return <FormControlLabel
+                key={i}
+                value={answer}
+                control={<Radio />}
+                label={<span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(answer) }}></span>} />
+            })}
           </RadioGroup>
         </CardContent>
       </Card>
