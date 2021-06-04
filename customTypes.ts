@@ -7,3 +7,8 @@ export type Question = {
   incorrect_answers: Array<string>,
   selected_answer?: string
 }
+
+export type Answer = {
+  question: number,
+  selected_answer: string
+}

@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content'
 import { Button, CircularProgress, TextField } from '@material-ui/core';
 import { Send } from '@material-ui/icons';
-import { Question } from '../custonTypes';
+import { Question } from '../customTypes';
 import { QuestionsContext } from './_app';
 import { useRouter } from 'next/router';
 

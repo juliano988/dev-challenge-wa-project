@@ -3,6 +3,7 @@
     "Formik",
     "Swal",
     "dompurify",
+    "setanswers",
     "setquestions",
     "sweetalert"
   ]

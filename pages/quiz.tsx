@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import QuestionCard from "../components/QuestionCard";
-import { QuestionsContext } from "./_app";
+import { AnswerContext, QuestionsContext } from "./_app";
 import { useRouter } from 'next/router';
 import { Button } from "@material-ui/core";
+import { Answer } from "../customTypes";
 
 export default function Quiz() {
 
   const questions = useContext(QuestionsContext);
+  const answers = useContext(AnswerContext);
   const router = useRouter();
 
   const [questionsArr, setquestionsArr] = useState<Array<typeof QuestionCard>>();
@@ -18,19 +20,21 @@ export default function Quiz() {
   }, []);
 
   function handleSubmitClick() {
+    const tempArr:Array<Answer> = [];
     questions.questions?.forEach(function (question, i) {
       const questionXAnswers = document.getElementsByName('question'+(i+1)) as unknown as Array<HTMLInputElement>;
       for (let j = 0; j < questionXAnswers.length; j++) {
         if (questionXAnswers[j].checked) {
-          console.log({question:(i+1), selected_answer: questionXAnswers[j].value});
+          tempArr.push({question:(i+1), selected_answer: questionXAnswers[j].value});
         }
       }
     })
+    answers.setanswers(tempArr);
+    router.push('/results');
   }
 
-
   useEffect(function () {
-    const tempArr: Array<typeof QuestionCard> = []
+    const tempArr: Array<typeof QuestionCard> = [];
     questions.questions?.forEach(function (question, i, arr) {
       tempArr.push(
         <QuestionCard
