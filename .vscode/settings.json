@@ -3,8 +3,10 @@
     "Formik",
     "Swal",
     "dompurify",
+    "fontsource",
     "setanswers",
     "setquestions",
+    "setselected",
     "sweetalert"
   ]
 }

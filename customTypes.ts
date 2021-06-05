@@ -8,7 +8,7 @@ export type Question = {
   selected_answer?: string
 }
 
-export type Answer = {
-  question: number,
-  selected_answer: string
-}
+// export type Answer = {
+//   question: number,
+//   selected_answer: string
+// }

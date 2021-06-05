@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { AnswerContext } from "./_app";
+import { QuestionsContext } from "./_app";
 
 export default function Results() {
 
-  const answers = useContext(AnswerContext);
+  const questions = useContext(QuestionsContext);
 
-  console.log(answers.answers)
+  console.log(questions.questions)
 
   return (
     <>
