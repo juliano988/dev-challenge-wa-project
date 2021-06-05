@@ -30,8 +30,7 @@ export default function QuestionCard(props: {
   }
   
   return (
-    <div className={styles.card_div}>
-      <Card variant="outlined">
+      <Card className={styles.card_div} variant="outlined">
         <CardContent>
           <Typography color="textSecondary" gutterBottom>
             <div className={styles.card_header}>
@@ -52,6 +51,5 @@ export default function QuestionCard(props: {
           </RadioGroup>
         </CardContent>
       </Card>
-    </div>
   )
 }

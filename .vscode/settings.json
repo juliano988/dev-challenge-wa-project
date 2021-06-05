@@ -5,6 +5,7 @@
     "dompurify",
     "fontsource",
     "setanswers",
+    "setcorrect",
     "setquestions",
     "setselected",
     "sweetalert"
