@@ -10,12 +10,30 @@ export default function Quiz() {
   const router = useRouter();
 
   const [questionsArr, setquestionsArr] = useState<Array<typeof QuestionCard>>();
+  const [hasQuestions, sethasQuestions] = useState<boolean>(false);
 
   useEffect(function () {
     if (!questions.questions) {
       router.push('/');
+    } else {
+      sethasQuestions(true);
     }
   }, []);
+
+  useEffect(function () {
+    function popStateFunction(e: PopStateEvent) {
+      e.stopImmediatePropagation();
+      if (confirm('If you leave this page you will lose all your progress.')) {
+        window.location.replace('/');
+      } else {
+        router.push('/quiz');
+      }
+    }
+    window.addEventListener('popstate', (e) => popStateFunction(e));
+    return (function () {
+      window.removeEventListener('popstate', (e) => popStateFunction(e));
+    })
+  }, [])
 
   useEffect(function () {
     const tempArr: Array<typeof QuestionCard> = [];
@@ -33,11 +51,16 @@ export default function Quiz() {
     setquestionsArr(tempArr);
   }, [])
 
-  return (
-    <>
-      {questionsArr}
-      <Button type="button" onClick={() => router.push('/results')} variant="contained" color="primary">SEND</Button>
-    </>
-  )
+  if (hasQuestions) {
+    return (
+      <>
+        {questionsArr}
+        <Button type="button" onClick={() => router.push('/results')} variant="contained" color="primary">SEND</Button>
+      </>
+    )
+  } else {
+    return (<></>);
+  }
+
 }
 
