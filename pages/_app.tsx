@@ -1,8 +1,9 @@
 import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 import "@fontsource/roboto";
-import { createContext, Dispatch, SetStateAction, useState } from 'react';
+import React, { createContext, Dispatch, SetStateAction, useState } from 'react';
 import { Question } from '../customTypes';
+import { SnackbarProvider } from 'notistack';
 
 export const QuestionsContext = createContext({} as { questions: Question[] | undefined, setquestions: Dispatch<SetStateAction<Question[] | undefined>> });
 
@@ -12,7 +13,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QuestionsContext.Provider value={{ questions: questions, setquestions: setquestions }}>
+      <SnackbarProvider maxSnack={3}>
         <Component {...pageProps} />
+      </SnackbarProvider>
     </QuestionsContext.Provider>
   )
 }

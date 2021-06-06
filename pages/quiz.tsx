@@ -3,6 +3,7 @@ import QuestionCard from "../components/QuestionCard";
 import { QuestionsContext } from "./_app";
 import { useRouter } from 'next/router';
 import { Button } from "@material-ui/core";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 export default function Quiz() {
 
@@ -11,6 +12,8 @@ export default function Quiz() {
 
   const [questionsArr, setquestionsArr] = useState<Array<typeof QuestionCard>>();
   const [hasQuestions, sethasQuestions] = useState<boolean>(false);
+
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(function () {
     if (!questions.questions) {
@@ -55,11 +58,25 @@ export default function Quiz() {
     setquestionsArr(tempArr);
   }, [])
 
+  function handleSendBtnClick() {
+    if (questions.questions?.find(function (question) { return question.selected_answer === undefined })) {
+      enqueueSnackbar('Ainda faltam questões a serem respondidas!', {
+        variant: 'warning',
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        }
+      });
+    } else {
+      router.push('/results');
+    }
+  }
+
   if (hasQuestions) {
     return (
       <>
         {questionsArr}
-        <Button type="button" onClick={() => router.push('/results')} variant="contained" color="primary">SEND</Button>
+        <Button type="button" onClick={handleSendBtnClick} variant="contained" color="primary">SEND</Button>
       </>
     )
   } else {
