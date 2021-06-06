@@ -1,19 +1,26 @@
-import { Accordion, AccordionDetails, AccordionSummary, Card, CardContent, Typography } from "@material-ui/core";
+import { Accordion, AccordionDetails, AccordionSummary, Button, Card, CardContent, Typography } from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React, { useContext, useEffect, useState } from "react";
 import styles from '../styles/results-styles.module.scss'
-import { Question } from "../customTypes";
 import { QuestionsContext } from "./_app";
 import QuestionResultCard from "../components/QuestionResultCard";
+import { useRouter } from "next/router";
 
 export default function Results() {
 
   const questions = useContext(QuestionsContext);
+  const router = useRouter();
 
   const [correctAnswersCount, setcorrectAnswersCount] = useState<number>();
   const [questionsResultArr, setquestionsResultArr] = useState<Array<typeof QuestionResultCard>>();
 
-  console.log(questions.questions);
+  useEffect(function () {
+    if (questions.questions) {
+      localStorage.setItem('questions', JSON.stringify(questions.questions));
+    } else {
+      router.push('/');
+    }
+  }, [])
 
   useEffect(function () {
     let tempCount = 0;
@@ -28,6 +35,7 @@ export default function Results() {
     questions.questions?.forEach(function (question, i, arr) {
       tempArr.push(
         <QuestionResultCard
+          key={i}
           questionNum={i + 1}
           question={question.question}
           correct_answer={question.correct_answer}
@@ -43,20 +51,26 @@ export default function Results() {
       <span>{Math.round(correctAnswersCount as number / (questions.questions?.length as number) * 100) + '%'}</span>
       <p>You got {correctAnswersCount} {correctAnswersCount as number > 1 ? 'questions' : 'question'} right of {questions.questions?.length}.</p>
       <div>
-        <Accordion className={styles.accordion} variant="outlined">
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography >Show correct answers</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div>
-              {questionsResultArr}
-            </div>
-          </AccordionDetails>
-        </Accordion>
+
+        <Button type="button" onClick={() => router.push('/')} variant="contained" color="primary">GO Back</Button>
+
+        <div>
+          <Accordion className={styles.accordion} variant="outlined">
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography >Show correct answers</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div>
+                {questionsResultArr}
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+        
       </div>
     </div>
   )
