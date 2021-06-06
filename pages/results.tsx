@@ -23,6 +23,19 @@ export default function Results() {
   }, [])
 
   useEffect(function () {
+    function popStateFunction(e: PopStateEvent) {
+      e.stopImmediatePropagation();
+      if (window.location.pathname === '/quiz') {
+        router.push('/');
+      }
+    }
+    window.addEventListener('popstate', (e) => popStateFunction(e));
+    return (function () {
+      window.removeEventListener('popstate', (e) => popStateFunction(e));
+    })
+  }, [])
+
+  useEffect(function () {
     let tempCount = 0;
     questions.questions?.forEach(function (question) {
       if (question.selected_answer === question.correct_answer) { tempCount++ }
