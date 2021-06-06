@@ -23,10 +23,14 @@ export default function Quiz() {
   useEffect(function () {
     function popStateFunction(e: PopStateEvent) {
       e.stopImmediatePropagation();
-      if (confirm('If you leave this page you will lose all your progress.')) {
-        window.location.replace('/');
+      if (window.location.pathname === '/quiz') {
+        router.push('/');
       } else {
-        router.push('/quiz');
+        if (confirm('If you leave this page you will lose all your progress.')) {
+          router.push('/');
+        } else {
+          router.push('/quiz');
+        }
       }
     }
     window.addEventListener('popstate', (e) => popStateFunction(e));
