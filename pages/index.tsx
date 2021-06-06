@@ -60,7 +60,7 @@ export default function Home() {
 
   function handlePrevBtnClick(){
     questions.setquestions(JSON.parse(localStorage.getItem('questions') as string));
-    router.push('/results');
+    router.replace('/results');
   }
 
   return (

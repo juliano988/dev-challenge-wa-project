@@ -52,7 +52,7 @@ export default function Results() {
       <p>You got {correctAnswersCount} {correctAnswersCount as number > 1 ? 'questions' : 'question'} right of {questions.questions?.length}.</p>
       <div>
 
-        <Button type="button" onClick={() => router.push('/')} variant="contained" color="primary">GO Back</Button>
+        <Button type="button" onClick={() => router.replace('/')} variant="contained" color="primary">GO Back</Button>
 
         <div>
           <Accordion className={styles.accordion} variant="outlined">
@@ -70,7 +70,7 @@ export default function Results() {
             </AccordionDetails>
           </Accordion>
         </div>
-        
+
       </div>
     </div>
   )
