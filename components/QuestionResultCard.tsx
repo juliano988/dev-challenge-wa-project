@@ -6,7 +6,7 @@ import styles from '../styles/components/QuestionResultCard-styles.module.scss'
 
 export default function QuestionResultCard(props:{questionNum:number, question:string, correct_answer:string, selected_answer:string}) {
   return (
-    <Card className={styles.card_div} variant="outlined">
+    <Card style={{borderColor: props.selected_answer === props.correct_answer ? 'green' : 'red'}} className={styles.card_div} variant="outlined">
       <CardContent>
         <Typography variant="body1" component="p">
           Question {props.questionNum}
@@ -16,7 +16,7 @@ export default function QuestionResultCard(props:{questionNum:number, question:s
           Your answer: {props.selected_answer}
         </Typography>
         <Typography variant="body2" component="p">
-          Correct answer: {props.correct_answer}
+          <span className={styles.correct_answer_text}>Correct answer: {props.correct_answer}</span>
         </Typography>
       </CardContent>
     </Card>

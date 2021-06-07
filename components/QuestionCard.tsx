@@ -47,7 +47,7 @@ export default function QuestionCard(props: {
             return <FormControlLabel
               key={i}
               value={answer}
-              control={<Radio />}
+              control={<Radio color="primary"/>}
               label={<span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(answer) }}></span>} />
           })}
         </RadioGroup>

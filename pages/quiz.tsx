@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
+import styles from '../styles/quiz-styles.module.scss';
 import QuestionCard from "../components/QuestionCard";
 import { QuestionsContext } from "./_app";
 import { useRouter } from 'next/router';
-import { Button } from "@material-ui/core";
+import { Button, Container } from "@material-ui/core";
 import { SnackbarProvider, useSnackbar } from "notistack";
 
 export default function Quiz() {
@@ -85,10 +86,10 @@ export default function Quiz() {
 
   if (hasQuestions) {
     return (
-      <>
+      <Container maxWidth="sm" className={styles.questions_div}>
         {questionsArr}
         <Button type="button" onClick={handleSendBtnClick} variant="contained" color="primary">SEND</Button>
-      </>
+      </Container>
     )
   } else {
     return (<></>);

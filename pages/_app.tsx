@@ -1,4 +1,5 @@
 import '../styles/globals.scss'
+import '../styles/overrideMui.scss'
 import type { AppProps } from 'next/app'
 import "@fontsource/roboto";
 import React, { createContext, Dispatch, SetStateAction, useState } from 'react';
