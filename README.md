@@ -24,7 +24,7 @@ yarn start
 
 ## Link público
 
-A aplicação pode ser acessada tambem pela seguinte link:
+A aplicação pode ser acessada tambem pelo seguinte link:
 
 https://dev-challenge-wa-project-jf.netlify.app/
 
