@@ -18,7 +18,7 @@ export default function CircularProgressWithLabel(props: { value: number }) {
         alignItems="center"
         justifyContent="center"
       >
-        <Typography variant="caption" component="div" >
+        <Typography style={{fontSize: '15px', fontWeight: 'bold'}} variant="caption" component="div" >
           {`${Math.round(props.value)}%`}
         </Typography>
       </Box>

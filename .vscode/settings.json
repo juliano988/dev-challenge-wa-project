@@ -13,6 +13,7 @@
     "setneed",
     "setquestions",
     "setselected",
-    "sweetalert"
+    "sweetalert",
+    "tambem"
   ]
 }
