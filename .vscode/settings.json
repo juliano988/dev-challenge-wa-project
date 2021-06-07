@@ -12,6 +12,7 @@
     "sethas",
     "setneed",
     "setquestions",
+    "setradio",
     "setselected",
     "sweetalert",
     "tambem"

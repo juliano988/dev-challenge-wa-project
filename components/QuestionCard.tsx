@@ -11,12 +11,16 @@ export default function QuestionCard(props: {
   questionCategory: string,
   question: string,
   answers: Array<string>,
-  needToAnswer: boolean
+  needToAnswer: boolean,
 }) {
 
   const questions = useContext(QuestionsContext);
 
   const [answerdSelected, setanswerdSelected] = useState<boolean>(false);
+
+  useEffect(function () {
+    setanswerdSelected(Boolean((questions.questions as Array<Question>)[props.questionNum - 1]?.selected_answer));
+  }, [])
 
   function handleRadioChange(e: React.ChangeEvent<HTMLInputElement>) {
     const question = (questions.questions as Array<Question>)[props.questionNum - 1];
@@ -26,7 +30,7 @@ export default function QuestionCard(props: {
     setanswerdSelected(Boolean((questions.questions as Array<Question>)[props.questionNum - 1]?.selected_answer));
   }
 
-  console.log((questions.questions as Array<Question>)[props.questionNum - 1]?.selected_answer)
+  console.log(props.needToAnswer, !answerdSelected)
 
   return (
     <Card style={{ borderColor: props.needToAnswer && !answerdSelected ? '#FF9800' : '' }} className={styles.card_div} variant="outlined">
@@ -47,7 +51,7 @@ export default function QuestionCard(props: {
             return <FormControlLabel
               key={i}
               value={answer}
-              control={<Radio color="primary"/>}
+              control={<Radio color="primary" />}
               label={<span dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(answer) }}></span>} />
           })}
         </RadioGroup>

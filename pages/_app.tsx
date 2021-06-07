@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QuestionsContext.Provider value={{ questions: questions, setquestions: setquestions }}>
-      <SnackbarProvider maxSnack={3}>
+      <SnackbarProvider maxSnack={1}>
         <Component {...pageProps} />
       </SnackbarProvider>
     </QuestionsContext.Provider>
