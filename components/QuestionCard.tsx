@@ -10,27 +10,26 @@ export default function QuestionCard(props: {
   totalQuestions: number,
   questionCategory: string,
   question: string,
-  answers: Array<string>
+  answers: Array<string>,
+  needToAnswer: boolean
 }) {
 
-  function shuffledAnswers(_answers: Array<string>): Array<string> {
-    const answers = _answers.slice(0);
-    const shuffledAnswers: Array<string> = [];
-    while (answers.length) { shuffledAnswers.push(answers.splice(Math.floor(Math.random() * answers.length), 1)[0]) };
-    return shuffledAnswers;
-  }
-
   const questions = useContext(QuestionsContext);
+
+  const [answerdSelected, setanswerdSelected] = useState<boolean>(false);
 
   function handleRadioChange(e: React.ChangeEvent<HTMLInputElement>) {
     const question = (questions.questions as Array<Question>)[props.questionNum - 1];
     question.selected_answer = e.target.value;
     (questions.questions as Array<Question>)[props.questionNum - 1] = question;
     questions.setquestions(questions.questions);
+    setanswerdSelected(Boolean((questions.questions as Array<Question>)[props.questionNum - 1]?.selected_answer));
   }
 
+  console.log((questions.questions as Array<Question>)[props.questionNum - 1]?.selected_answer)
+
   return (
-    <Card className={styles.card_div} variant="outlined">
+    <Card style={{ borderColor: props.needToAnswer && !answerdSelected ? '#FF9800' : '' }} className={styles.card_div} variant="outlined">
       <CardContent>
         <Typography color="textSecondary" gutterBottom>
           <div className={styles.card_header}>
@@ -44,7 +43,7 @@ export default function QuestionCard(props: {
           onChange={(e) => handleRadioChange(e)}
           name={"question" + props.questionNum}
           defaultValue={(questions.questions as Array<Question>)[props.questionNum - 1]?.selected_answer ? (questions.questions as Array<Question>)[props.questionNum - 1].selected_answer : ''}>
-          {shuffledAnswers(props.answers).map(function (answer, i) {
+          {props.answers.map(function (answer, i) {
             return <FormControlLabel
               key={i}
               value={answer}

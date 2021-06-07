@@ -2,12 +2,15 @@
   "cSpell.words": [
     "Formik",
     "Swal",
+    "answerd",
     "dompurify",
     "fontsource",
     "notistack",
+    "setanswerd",
     "setanswers",
     "setcorrect",
     "sethas",
+    "setneed",
     "setquestions",
     "setselected",
     "sweetalert"

@@ -12,8 +12,16 @@ export default function Quiz() {
 
   const [questionsArr, setquestionsArr] = useState<Array<typeof QuestionCard>>();
   const [hasQuestions, sethasQuestions] = useState<boolean>(false);
+  const [needToAnswer, setneedToAnswer] = useState<boolean>(false);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  function shuffledAnswers(_answers: Array<string>): Array<string> {
+    const answers = _answers.slice(0);
+    const shuffledAnswers: Array<string> = [];
+    while (answers.length) { shuffledAnswers.push(answers.splice(Math.floor(Math.random() * answers.length), 1)[0]) };
+    return shuffledAnswers;
+  }
 
   useEffect(function () {
     if (!questions.questions) {
@@ -52,11 +60,12 @@ export default function Quiz() {
           totalQuestions={arr.length}
           questionCategory={question.category}
           question={question.question}
-          answers={question.incorrect_answers.concat(question.correct_answer)}
+          answers={shuffledAnswers(question.incorrect_answers.concat(question.correct_answer))}
+          needToAnswer={needToAnswer}
         /> as unknown as typeof QuestionCard)
     })
     setquestionsArr(tempArr);
-  }, [])
+  }, [needToAnswer])
 
   function handleSendBtnClick() {
     if (questions.questions?.find(function (question) { return question.selected_answer === undefined })) {
@@ -67,7 +76,9 @@ export default function Quiz() {
           horizontal: 'right',
         }
       });
+      setneedToAnswer(true);
     } else {
+      closeSnackbar();
       router.push('/results');
     }
   }
